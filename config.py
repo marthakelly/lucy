@@ -1,4 +1,6 @@
-###### variables ###
+###### config options ###
 
-title = "This is a blog, thank you."
-author = "Martha Kelly"
+config = {
+    "title": "This is a blog, thank you.",
+    "author": "Martha Kelly"
+}   

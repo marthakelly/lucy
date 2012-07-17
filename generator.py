@@ -1,4 +1,5 @@
 from jinja2 import Environment, PackageLoader
+from config import *
 import markdown
 import codecs
 import sys
@@ -8,6 +9,8 @@ import os
 
 # set up jinja and get template to render
 env = Environment(loader=PackageLoader('test', 'templates'))
+
+print config["title"]
 
 def generate_all(filename):
     template = env.get_template(filename)
@@ -23,18 +26,24 @@ def generate_all(filename):
     html = md.convert(text)
 
     # print for my benefit
-    # print md.Meta
+    print md.Meta
 
     # render template context with markdown and other variables
     static_page_content = template.render(blog=html, meta=md.Meta)
 
     # print for my own benefit in the console
-    print static_page_content
+    # print static_page_content
 
     # write to the new file
     file = open('static/' + filename, 'w')
     file.write(static_page_content)
-    # file.close()
+    file.close()
 
-for file in os.listdir(sys.argv[1]):
-    generate_all(file)
+#for file in os.listdir(sys.argv[1]):
+#   generate_all(file)
+    
+def make_post(post_name):
+    print "making post"
+    file = open('posts/' + post_name + '.markdown', 'w')
+    file.write("hai")
+    file.close() 
