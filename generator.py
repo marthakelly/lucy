@@ -1,27 +1,40 @@
 from jinja2 import Environment, PackageLoader
 import markdown
 import codecs
+import sys
+import os
+
+# func to process all files
 
 # set up jinja and get template to render
 env = Environment(loader=PackageLoader('test', 'templates'))
-template = env.get_template('index.html')
 
-# generate html from markdown
-input_file = codecs.open("posts/first-post.markdown", mode="r", encoding="utf-8")
-text = input_file.read()
+def generate_all(filename):
+    template = env.get_template(filename)
 
-md = markdown.Markdown(extensions=['meta'])
+    # grab markdown file that needs converting
+    input_file = codecs.open("posts/first-post.markdown", mode="r", encoding="utf-8")
+    text = input_file.read()
 
-html = md.convert(text)
+    # strip out the post meta data
+    md = markdown.Markdown(extensions=['meta'])
 
-# render template context with markdown and other variables
-static_page_content = template.render(the='variables', go='here', blog=html, meta=md.Meta)
+    # convert markdown file
+    html = md.convert(text)
 
-# print for my own benefit in the console
-print static_page_content
+    # print for my benefit
+    # print md.Meta
 
-# write to the new file
-file = open('static/index.html', 'w')
-file.write(static_page_content)
-file.close()
+    # render template context with markdown and other variables
+    static_page_content = template.render(blog=html, meta=md.Meta)
 
+    # print for my own benefit in the console
+    print static_page_content
+
+    # write to the new file
+    file = open('static/' + filename, 'w')
+    file.write(static_page_content)
+    # file.close()
+
+for file in os.listdir(sys.argv[1]):
+    generate_all(file)
