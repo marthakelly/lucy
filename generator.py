@@ -40,10 +40,13 @@ def generate_all(filename):
     file.close()
 
 #for file in os.listdir(sys.argv[1]):
-#   generate_all(file)
+#   generate_all(file
     
 def make_post(post_name):
     print "making post"
+    
+    markdown_header = "layout: post" + "\n" + "title: '" + post_name + "'" + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: true, categories: []"
+        
     file = open('posts/' + post_name + '.markdown', 'w')
-    file.write("hai")
+    file.write(markdown_header)
     file.close() 

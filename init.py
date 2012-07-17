@@ -2,7 +2,7 @@ import argparse
 from generator import make_post
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-c", "--post", help="create a new blog post")
+parser.add_argument("-p", "--post", help="create a new blog post")
 args = parser.parse_args()
 
 if args.post:
