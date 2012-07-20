@@ -5,5 +5,5 @@ config = {
     "author": "Martha Kelly",
     "template_directory": "templates",
     "default_page_template": "templates/page-template.html",
-    "build_directory": "static"
+    "build_directory": "build"
 }   

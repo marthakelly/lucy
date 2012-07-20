@@ -1,16 +1,10 @@
 from jinja2 import Environment, PackageLoader
 from config import *
 import markdown
-import codecs
-import sys
+#import codecs
 import os
 
-# func to process all files
-
-# set up jinja and get template to render
 env = Environment(loader=PackageLoader('test', 'templates'))
-
-print config["title"]
 
 def generate_file(filename):
     template = env.get_template(filename)
@@ -26,7 +20,7 @@ def generate_file(filename):
     html = md.convert(text)
 
     # print for my benefit
-    print md.Meta
+    # print md.Meta
 
     # render template context with markdown and other variables
     static_page_content = template.render(blog=html, meta=md.Meta)
@@ -35,21 +29,46 @@ def generate_file(filename):
     # print static_page_content
 
     # write to the new file
-    file = open('static/' + filename, 'w')
+    file = open('build/' + filename, 'w')
     file.write(static_page_content)
     file.close()
 
-def generate_all():
-    #for file in os.listdir(sys.argv[1]):
-    for file in os.listdir('templates'):
-       generate_file(file)
+def generate_blog_post(post_name):
+    template = env.get_template('page-template.html');
+        
+    post = open("posts/" + post_name, mode="r")
+    text = post.read()
+
+    md = markdown.Markdown(extensions=['meta'])
+
+    html = md.convert(text)
     
+    static_page_content = template.render(blog=html, meta=md.Meta)
+    
+    post_url = post_name.replace('.markdown', '.html')
+    
+    file = open('build/blog/' + post_url, 'w')
+    file.write(static_page_content)
+    file.close()
+    
+def generate_all():
+    for file in os.listdir('templates'):
+        if file == 'page-template.html':
+            continue
+        else:
+            generate_file(file)
+    
+    for file in os.listdir('posts'):
+        print 'hai'
+
 def make_post(post_name):
     print "making post"
     
     markdown_header = "layout: post" + "\n" + "title: '" + post_name + "'" + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: true" + "\n" + "categories: []" + "\n"
-        
-    file = open('posts/' + post_name + '.markdown', 'w')
+    
+    post_url = post_name.replace(' ', '-').lower()
+    
+    file = open('posts/' + post_url + '.markdown', 'w')
     file.write(markdown_header)
     file.close() 
     
