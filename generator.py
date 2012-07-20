@@ -12,7 +12,7 @@ env = Environment(loader=PackageLoader('test', 'templates'))
 
 print config["title"]
 
-def generate_all(filename):
+def generate_file(filename):
     template = env.get_template(filename)
 
     # grab markdown file that needs converting
@@ -39,14 +39,26 @@ def generate_all(filename):
     file.write(static_page_content)
     file.close()
 
-#for file in os.listdir(sys.argv[1]):
-#   generate_all(file
+def generate_all():
+    #for file in os.listdir(sys.argv[1]):
+    for file in os.listdir('templates'):
+       generate_file(file)
     
 def make_post(post_name):
     print "making post"
     
-    markdown_header = "layout: post" + "\n" + "title: '" + post_name + "'" + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: true, categories: []"
+    markdown_header = "layout: post" + "\n" + "title: '" + post_name + "'" + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: true" + "\n" + "categories: []" + "\n"
         
     file = open('posts/' + post_name + '.markdown', 'w')
     file.write(markdown_header)
     file.close() 
+    
+def make_page(page_name):
+    print "making post"
+
+    page_template = open('templates/page-template.html', 'r')
+    html = page_template.read()
+    
+    file = open('templates/' + page_name + '.html', 'w')
+    file.write(html)
+    file.close()
