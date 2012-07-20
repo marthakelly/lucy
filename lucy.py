@@ -10,16 +10,16 @@ parser.add_argument("-gp", "--generate_post", help="turn a markdown page into a 
 args = parser.parse_args()
 
 if args.post:
-    print (args.post)
+    # print (args.post)
     make_post(args.post)
 elif args.page:
-    print (args.page)
+    # print (args.page)
     make_page(args.page)
 elif args.generate:
-    print (args.generate)
+    # print (args.generate)
     generate_all()
 elif args.generate_post:
-    print (args.generate_post)
+    # print (args.generate_post)
     generate_blog_post(args.generate_post)
 else:
     print ("nope")

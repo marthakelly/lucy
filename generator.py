@@ -54,12 +54,11 @@ def generate_blog_post(post_name):
 def generate_all():
     # generate pages
     for file in os.listdir('lucy/templates'):
-        if file == 'page-template.html':
-            continue
-        elif file == 'base.html':
+        if file == 'page-template.html' or 'base.html':
             continue
         else:
             generate_file(file)
+
     # generate posts
     for file in os.listdir('lucy/posts'):
         generate_blog_post(file)
