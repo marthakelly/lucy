@@ -1,20 +1,21 @@
-from jinja2 import Environment, PackageLoader
+from jinja2 import Environment, FileSystemLoader
+from subprocess import Popen
 from config import *
 import markdown
-#import codecs
 import os
 
-env = Environment(loader=PackageLoader('test', 'templates'))
+#env = Environment(loader=PackageLoader('lucy', 'lucy/templates'))
+env = Environment(loader = FileSystemLoader('lucy/templates'))
 
 def generate_file(filename):
     template = env.get_template(filename)
 
     # grab markdown file that needs converting
-    input_file = codecs.open("posts/first-post.markdown", mode="r", encoding="utf-8")
+    input_file = open("lucy/templates/" + filename)
     text = input_file.read()
 
     # strip out the post meta data
-    md = markdown.Markdown(extensions=['meta'])
+    md = markdown.Markdown()
 
     # convert markdown file
     html = md.convert(text)
@@ -22,8 +23,10 @@ def generate_file(filename):
     # print for my benefit
     # print md.Meta
 
+    title = filename.replace('.html', '').title()
+    
     # render template context with markdown and other variables
-    static_page_content = template.render(blog=html, meta=md.Meta)
+    static_page_content = template.render(title=config['title'] + " - " + title)
 
     # print for my own benefit in the console
     # print static_page_content
@@ -36,7 +39,7 @@ def generate_file(filename):
 def generate_blog_post(post_name):
     template = env.get_template('page-template.html');
         
-    post = open("posts/" + post_name, mode="r")
+    post = open("lucy/posts/" + post_name, mode="r")
     text = post.read()
 
     md = markdown.Markdown(extensions=['meta'])
@@ -52,15 +55,20 @@ def generate_blog_post(post_name):
     file.close()
     
 def generate_all():
-    for file in os.listdir('templates'):
+    # generate pages
+    for file in os.listdir('lucy/templates'):
         if file == 'page-template.html':
             continue
         else:
             generate_file(file)
+    # generate posts
+    for file in os.listdir('lucy/posts'):
+        generate_blog_post(file)
+    # generate CSS from bareBones  
+    p = Popen(['node', 'lucy/js/bareBones.js', 'lucy/css/main.bare'])
+    # minify CSS
+    # move minified CSS to the build folder
     
-    for file in os.listdir('posts'):
-        print 'hai'
-
 def make_post(post_name):
     print "making post"
     
