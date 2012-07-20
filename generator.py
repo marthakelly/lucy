@@ -1,5 +1,5 @@
 from jinja2 import Environment, FileSystemLoader
-from subprocess import Popen
+# from subprocess import Popen
 from config import *
 import markdown
 import os
@@ -19,9 +19,6 @@ def generate_file(filename):
 
     # convert markdown file
     html = md.convert(text)
-
-    # print for my benefit
-    # print md.Meta
 
     title = filename.replace('.html', '').title()
     
@@ -64,10 +61,19 @@ def generate_all():
     # generate posts
     for file in os.listdir('lucy/posts'):
         generate_blog_post(file)
+        
     # generate CSS from bareBones  
-    p = Popen(['node', 'lucy/js/bareBones.js', 'lucy/css/main.bare'])
+    #p = Popen(['node', 'lucy/js/bareBones.js', 'lucy/css/main.bare'])
+    os.system('node lucy/js/bareBones.js lucy/css/main.bare')
+    
     # minify CSS
-    # move minified CSS to the build folder
+    os.system('python setup.py minify_css --sources lucy/css/*.css --output build/css/%s-min.css')
+    
+    # minify JS
+    os.system('python setup.py minify_js --sources lucy/js/*.js --output build/js/all-min.js')
+    
+    # minify JS as separate files
+    # os.system('python setup.py minify_js --sources lucy/js/*.js --output build/js/%s-min.js')
     
 def make_post(post_name):
     print "making post"
@@ -84,8 +90,9 @@ def make_page(page_name):
     print "making post"
 
     page_template = open('templates/page-template.html', 'r')
+
     html = page_template.read()
-    
+
     file = open('templates/' + page_name + '.html', 'w')
     file.write(html)
     file.close()

@@ -24,8 +24,12 @@ elif args.generate_post:
 else:
     print ("nope")
     
-# TODO
+##### TODO ####
 # minify CSS/JS
 # deploy to gihub pages
 # pretty template
 # set up default lucy directories correctly
+# set up local dev server
+# add more functionality to bareBones and put it in NPM
+# put this in pypi
+# document the shit out of it
