@@ -56,6 +56,8 @@ def generate_all():
     for file in os.listdir('lucy/templates'):
         if file == 'page-template.html':
             continue
+        elif file == 'base.html':
+            continue
         else:
             generate_file(file)
     # generate posts
