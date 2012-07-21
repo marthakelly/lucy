@@ -5,6 +5,12 @@ import os
 
 env = Environment(loader = FileSystemLoader('source/templates'))
 
+def init():
+    dirs = ['deploy', 'source', 'deploy/blog', 'deploy/css', 'deploy/img', 'deploy/img', 'deploy/js', 'source/css', 'source/img', 'source/js', 'source/posts', 'source/templates']
+    for path in dirs:
+        if not os.path.exists(path):
+            os.makedirs(path)
+
 def generate_file(filename):
     template = env.get_template(filename)
 
