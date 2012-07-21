@@ -1,12 +1,14 @@
 import argparse
-from generator import make_post, make_page, generate_all, generate_blog_post
+from generator import make_post, make_page, generate_all, generate_blog_post, generate_file
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-po", "--post", help="create a new blog post")
 parser.add_argument("-pa", "--page", help="create a new page")
 parser.add_argument("-g", "--generate", help="generate all template pages into static pages",
                     action="store_true")
-parser.add_argument("-gp", "--generate_post", help="turn a markdown page into a html blog post page")
+parser.add_argument("-gpo", "--generate_post", help="turn a markdown page into a html blog post page")
+parser.add_argument("-gpa", "--generate_page", help="turns a jina template into a static html page")
+
 args = parser.parse_args()
 
 if args.post:
@@ -21,6 +23,9 @@ elif args.generate:
 elif args.generate_post:
     # print (args.generate_post)
     generate_blog_post(args.generate_post)
+elif args.generate_page:
+    # print (args.generate_page)
+    generate_file(args.generate_page)
 else:
     print ("nope")
     

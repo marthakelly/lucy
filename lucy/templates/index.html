@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-        <meta charset="utf-8" />
-        <title>{{ title }}</title>
-</head>
-<body>
-	
-	<div class="container">
-
-		<h1>This is a blog</h1>
-		
-		<h2>Single Post page</h2>
-		
-		<div class="post">
-			{{ blog }}
-		</div>
-
-	</div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Index</h1>
+    <p class="important">
+      Welcome on my awesome homepage.
+    </p>
+{% endblock %}

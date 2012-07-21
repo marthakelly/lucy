@@ -1,10 +1,8 @@
 from jinja2 import Environment, FileSystemLoader
-# from subprocess import Popen
 from config import *
 import markdown
 import os
 
-#env = Environment(loader=PackageLoader('lucy', 'lucy/templates'))
 env = Environment(loader = FileSystemLoader('lucy/templates'))
 
 def generate_file(filename):
@@ -18,15 +16,13 @@ def generate_file(filename):
     md = markdown.Markdown()
 
     # convert markdown file
-    html = md.convert(text)
+    #html = md.convert(text)
 
     title = filename.replace('.html', '').title()
+    print title
     
     # render template context with markdown and other variables
     static_page_content = template.render(title=config['title'] + " - " + title)
-
-    # print for my own benefit in the console
-    # print static_page_content
 
     # write to the new file
     file = open('build/' + filename, 'w')
@@ -43,7 +39,9 @@ def generate_blog_post(post_name):
 
     html = md.convert(text)
     
-    static_page_content = template.render(blog=html, meta=md.Meta)
+    title = post_name.replace('.markdown', '').title()
+    
+    static_page_content = template.render(blog=html, meta=md.Meta, title=title)
     
     post_url = post_name.replace('.markdown', '.html')
     
@@ -54,8 +52,10 @@ def generate_blog_post(post_name):
 def generate_all():
     # generate pages
     for file in os.listdir('lucy/templates'):
-        if file == 'page-template.html' or 'base.html':
-            continue
+        if file == 'page-template.html':
+            pass
+        elif file == 'base.html':
+            pass
         else:
             generate_file(file)
 
@@ -64,11 +64,13 @@ def generate_all():
         generate_blog_post(file)
         
     # generate CSS from bareBones  
-    #p = Popen(['node', 'lucy/js/bareBones.js', 'lucy/css/main.bare'])
     os.system('node lucy/js/bareBones.js lucy/css/main.bare')
     
     # minify CSS
-    os.system('python setup.py minify_css --sources lucy/css/*.css --output build/css/%s-min.css')
+    os.system('python setup.py minify_css --sources lucy/css/*.css --output build/css/all-min.css')
+    
+    # minify CSS as separate files
+    #os.system('python setup.py minify_css --sources lucy/css/*.css --output build/css/%s-min.css')
     
     # minify JS
     os.system('python setup.py minify_js --sources lucy/js/*.js --output build/js/all-min.js')
@@ -80,17 +82,17 @@ def make_post(post_name):
     print "making post"
     
     markdown_header = "layout: post" + "\n" + "title: '" + post_name + "'" + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: true" + "\n" + "categories: []" + "\n"
-    
+
     post_url = post_name.replace(' ', '-').lower()
     
-    file = open('posts/' + post_url + '.markdown', 'w')
+    file = open('lucy/posts/' + post_url + '.markdown', 'w')
     file.write(markdown_header)
     file.close() 
     
 def make_page(page_name):
-    print "making post"
+    print "making page"
 
-    page_template = open('templates/page-template.html', 'r')
+    page_template = open('page-template.html', 'r')
 
     html = page_template.read()
 
