@@ -24,7 +24,7 @@ def generate_file(filename):
     static_page_content = template.render(title=config['title'] + " - " + title)
 
     # write to the new file
-    file = open('build/' + filename, 'w')
+    file = open('deploy/' + filename, 'w')
     file.write(static_page_content)
     file.close()
 
@@ -44,7 +44,7 @@ def generate_blog_post(post_name):
     
     post_url = post_name.replace('.markdown', '.html')
     
-    file = open('build/blog/' + post_url, 'w')
+    file = open('deploy/blog/' + post_url, 'w')
     file.write(static_page_content)
     file.close()
     
@@ -66,17 +66,17 @@ def generate_all():
     os.system('node source/js/bareBones.js source/css/main.bare')
     
     # minify CSS
-    #os.remove('build/css/all-min.css')
-    os.system('python ../setup.py minify_css --sources source/css/*.css --output build/css/all-min.css --charset utf-8')
+    #os.remove('deploy/css/all-min.css')
+    os.system('python ../setup.py minify_css --sources source/css/*.css --output deploy/css/all-min.css --charset utf-8')
     
     # minify CSS as separate files
-    # os.system('python setup.py minify_css --sources source/css/*.css --output build/css/%s-min.css --charset utf-8')
+    # os.system('python setup.py minify_css --sources source/css/*.css --output deploy/css/%s-min.css --charset utf-8')
     
     # minify JS
-    os.system('python ../setup.py minify_js --sources source/js/*.js --output build/js/all-min.js --charset utf-8')
+    os.system('python ../setup.py minify_js --sources source/js/*.js --output deploy/js/all-min.js --charset utf-8')
     
     # minify JS as separate files
-    # os.system('python setup.py minify_js --sources source/js/*.js --output build/js/%s-min.js --charset utf-8')
+    # os.system('python setup.py minify_js --sources source/js/*.js --output deploy/js/%s-min.js --charset utf-8')
     
 def make_post(post_name):    
     markdown_header = "layout: post" + "\n" + "title: '" + post_name + "'" + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: true" + "\n" + "categories: []" + "\n"
