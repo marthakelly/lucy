@@ -6,12 +6,19 @@ import os
 env = Environment(loader = FileSystemLoader('source/templates'))
 
 def init():
+    # this inits a plain template
     dirs = ['deploy', 'source', 'deploy/blog', 'deploy/css', 'deploy/img', 'deploy/img', 'deploy/js', 'source/css', 'source/img', 'source/js', 'source/posts', 'source/templates']
     for path in dirs:
         if not os.path.exists(path):
             os.makedirs(path)
 
+def pretty():
+    pass
+    #this will generate a pretty template at some point
+
 def generate_file(filename):
+    print 'generating page: ' + filename
+    
     template = env.get_template(filename)
 
     # grab markdown file that needs converting
@@ -35,6 +42,7 @@ def generate_file(filename):
     file.close()
 
 def generate_blog_post(post_name):
+    print 'generating blog post: ' + post_name
     template = env.get_template('page-template.html');
         
     post = open("source/posts/" + post_name, mode="r")
@@ -72,17 +80,8 @@ def generate_all():
     os.system('node source/js/bareBones.js source/css/main.bare')
     
     # minify CSS
-    #os.remove('deploy/css/all-min.css')
-    os.system('python ../setup.py minify_css --sources source/css/*.css --output deploy/css/all-min.css --charset utf-8')
-    
-    # minify CSS as separate files
-    # os.system('python setup.py minify_css --sources source/css/*.css --output deploy/css/%s-min.css --charset utf-8')
-    
-    # minify JS
-    os.system('python ../setup.py minify_js --sources source/js/*.js --output deploy/js/all-min.js --charset utf-8')
-    
-    # minify JS as separate files
-    # os.system('python setup.py minify_js --sources source/js/*.js --output deploy/js/%s-min.js --charset utf-8')
+    os.system('python ../setup.py minify_css --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/css/main.css --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/deploy/css/all-min.css --charset utf-8')
+    os.system('python ../setup.py minify_js --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/js/init.js --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/deploy/js/all-min.js --charset utf-8')
     
 def make_post(post_name):    
     markdown_header = "layout: post" + "\n" + "title: '" + post_name + "'" + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: true" + "\n" + "categories: []" + "\n"

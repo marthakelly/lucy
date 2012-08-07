@@ -8,23 +8,19 @@ parser.add_argument("-g", "--generate", help="generate all template pages into s
                     action="store_true")
 parser.add_argument("-gpo", "--generate_post", help="turn a markdown page into a html blog post page")
 parser.add_argument("-gpa", "--generate_page", help="turns a jina template into a static html page")
+parser.add_argument("-i", "--init", help="start a new lucy project!")
 
 args = parser.parse_args()
 
 if args.post:
-    # print (args.post)
     make_post(args.post)
 elif args.page:
-    # print (args.page)
     make_page(args.page)
 elif args.generate:
-    # print (args.generate)
     generate_all()
 elif args.generate_post:
-    # print (args.generate_post)
     generate_blog_post(args.generate_post)
 elif args.generate_page:
-    # print (args.generate_page)
     generate_file(args.generate_page)
 else:
     print ("nope")
