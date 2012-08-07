@@ -27,7 +27,7 @@ The flags are:
     will create a new page
     
     -g , --generate
-    will generate all template pages into static pages
+    will generate all template pages into static pages ** and ** minify your css/js
     
     -gpo << post name >>, --generate_post << post name >>
     will generate a single post into a static page
@@ -36,3 +36,9 @@ The flags are:
     will generate a single page into a static page
 
     --help appended to any of these commands will bring up a help menu
+    
+The raw files are in the source directory, the files are generated into the deploy directory. Bootstrap your favorite deployment method :)
+
+### In the works:
+local webserver
+prettier templates
