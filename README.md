@@ -40,5 +40,4 @@ The flags are:
 The raw files are in the source directory, the files are generated into the deploy directory. Bootstrap your favorite deployment method :)
 
 ### In the works:
-local webserver
-prettier templates
+local webserver, prettier templates
