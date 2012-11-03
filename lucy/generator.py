@@ -12,6 +12,10 @@ def init():
         if not os.path.exists(path):
             os.makedirs(path)
 
+def plain ():
+    pass
+    #this will generate a plain template at some point
+
 def pretty():
     pass
     #this will generate a pretty template at some point
@@ -77,10 +81,12 @@ def generate_all():
         generate_blog_post(file)
         
     # generate CSS from bareBones  
-    os.system('node source/js/bareBones.js source/css/main.bare')
+    # os.system('node source/js/bareBones.js source/css/main.bare')
     
     # minify CSS
-    os.system('python ../setup.py minify_css --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/css/main.css --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/deploy/css/all-min.css --charset utf-8')
+    os.system('python ../setup.py minify_css --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/css/plain.css --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/deploy/css/all-min.css --charset utf-8')
+    
+    # minify JS
     os.system('python ../setup.py minify_js --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/js/init.js --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/deploy/js/all-min.js --charset utf-8')
     
 def make_post(post_name):    

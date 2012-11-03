@@ -7,7 +7,7 @@ Lucy is a static site generator written in Python.
 You've heard of Jekyll (Ruby) and Hyde (Python). In the Robert Louis Stevenson (Broadway) adaptation of Jekyll and Hyde, Lucy is the shared love interest of both Jekyll and Hyde.
 
 ### What is Lucy made of?
-Lucy is written in Python. She uses Markdown for post/page markup, Jinja2 for templating, and bareBones for CSS preprocessing. 
+Lucy is written in Python. She uses Markdown for post/page markup, Jinja2 for templating, and bareBones for CSS preprocessing.
 
 ### Usage
 
