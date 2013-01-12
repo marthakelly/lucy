@@ -1,27 +1,33 @@
-import os
 from setuptools import setup
+
+VERSION = __import__(PACKAGE).__version__
 
 setup(
     name = "lucy",
-    version = "0.0.1",
+    version = VERSION,
     author = "Martha Kelly",
     author_email = "mk.girdler@gmail.com",
-    description = ("Pretty, simple static site generator."),
+    description = ("Pretty, simple static site generator and blog for github pages."),
     license = "BSD",
-    keywords = "lucy static site generator jinja2 markdown blog responsive",
     url = "https://www.github.com/marthakelly/lucy",
     install_requires = [
         'Markdown >= 2.0',
         'Jinja2 >= 2.5',
         'minify'
     ],
-    packages = find_packages(),
+    packages = find_packages(exclude=["tests.*", "tests"]),
+    package_data = find_package_data("lucy", only_in_packages=False),
     # TODO
     # long_description=read('README.md'),
     classifiers = [
         "Development Status :: 2 - Pre-Alpha",
+	"Environment :: Web Environment",
+	"Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
-        'Programming Language :: Python',
-        "Topic :: Utilities"
+	"Operating System :: OS Independent",
+        "Programming Language :: Python",
+	"Framework :: Jinja2",
+        "Topic :: Utilities",
     ],
+    zip_safe = False,
 )
