@@ -7,21 +7,13 @@
     {% endblock %}
 </head>
 <body>
-    <div class="navigation">
-        <ul>
-        {% for item in navigation %}
-            <li><a href="{{ item.href }}">{{ item.title }}</a></li>
-        {% endfor %}
-        </ul>
-    </div>
+    {% include 'navigation.html' %}
 	<div class="content">
 		{% block content %}
 		{% endblock %}
 	</div>
 	<div class="sidebar">
-        <div class="about">
-            {{ about }}
-        </div>
+        {% include 'about-summary.html' %}
         <div class="recent">
             <ul>
             {% for item in recent %}

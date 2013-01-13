@@ -6,6 +6,8 @@ import os
 # TODO create truncated/aggregated view of all posts on index
 
 env = Environment(loader = FileSystemLoader("utils/templates"))
+# variables available to all templates
+# globals = Environment.globals()
 
 def init():
     # TODO add prompt if they want to override this directory with a new clean project
@@ -25,7 +27,7 @@ def pretty():
 # TODO make_page/make_post/generate_page/generate_post could be generic and reused in two methods
 def make_page(page):
     # format page header for markdown
-    markdown_header = "layout: page" + "\n" + "title: "" + post + """ + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments:" + config[comments_enabled]  + "\n" + "categories: []" + "\n"
+    markdown_header = "layout: page" + "\n" + "title: " + page + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: " + config["comments_enabled"]  + "\n" + "categories: []" + "\n"
     # format URL
     url = page.replace(" ", "-").lower()
     # write to file 
@@ -39,7 +41,7 @@ def make_page(page):
 # TODO format DATE
 def make_post(post):    
     # format post header for markdown
-    markdown_header = "layout: post" + "\n" + "title: "" + post + """ + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments:" + config[comments_enabled] + "\n" + "categories: []" + "\n"
+    markdown_header = "layout: post" + "\n" + "title: " + post + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: " + config["comments_enabled"] + "\n" + "categories: []" + "\n"
     # format URL
     url = post.replace(" ", "-").lower()
     # write to file 
@@ -92,8 +94,27 @@ def generate_post(post):
 
     # print confirmation
     print "Generated post: " + post
+
+# TODO make both of these more generic
+def generate_index():
+    template = env.get_template('index.html')
+    static_page = template.render(title=config["title"], posts=posts)
+    # write generated html to new file
+    file = open("static/index.html", "w")
+    file.write(static_page)
+    file.close()
     
+def generate_archives():
+    template = env.get_template('archives.html')
+    static_page = template.render(title=config["title"] + "- archives", posts=posts)
+    # write generated html to new file
+    file = open("static/archives.html", "w")
+    file.write(static_page)
+    file.close()
+
 # generate all pages and posts into static assets
+# create index.html
+# create archives.html
 # minify css/js
 def generate_all():
     # generate pages
@@ -115,6 +136,10 @@ def generate_all():
 	except IOError:
     	    # copy over new images
 	    os.system("cp " + file + " static/img/" + file)
+	# create index.html
+	generate_index()
+	# create archives.html
+	generate_archives()
     # minify CSS
     # TODO fix the paths for minify
     os.system("python ../setup.py minify_css --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/css/style.css --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/static/css/all-min.css --charset utf-8")

@@ -1,5 +1,5 @@
 import argparse
-from generator import init, make_post, make_page, generate_all, generate_blog_post, generate_file
+from generator import init, make_post, make_page, generate_all, generate_post, generate_page
 
 parser = argparse.ArgumentParser()
 

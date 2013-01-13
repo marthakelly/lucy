@@ -12,6 +12,8 @@
 </div>
 
 <div class="comments">
-    {{ disqus }}
+    {% if disqus %}
+        {{ disqus }}
+    {% endif %}
 </div>
 {% endblock %}
