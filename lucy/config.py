@@ -1,9 +1,16 @@
-###### config options ###
+# Edit these config options to customize your blog
+TITLE = "This is a blog, thank you"
+AUTHOR = "Martha Kelly"
+GITHUB = "marthakelly"
+COMMENTS = True
+TWITTER = "@marthakelly"
+ETSY = "marthakelly3"
 
 config = {
-    "title": "This is a blog, thank you",
-    "author": "Martha Kelly",
-    "template_directory": "templates",
-    "default_page_template": "templates/page-template.html",
-    "build_directory": "build"
+    "title"     : TITLE,
+    "author"    : AUTHOR,
+    "github"    : GITHUB,
+    "comments"  : COMMENTS,
+    "twitter"   : TWITTER,
+    "etsy"      : ETSY,
 }   

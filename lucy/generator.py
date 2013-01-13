@@ -3,9 +3,9 @@ from config import *
 import markdown
 import os
 
+# TODO create truncated/aggregated view of all posts on index
+
 env = Environment(loader = FileSystemLoader("utils/templates"))
-# TODO import comments from config
-comments_enabled = "true"
 
 def init():
     # TODO add prompt if they want to override this directory with a new clean project
@@ -25,7 +25,7 @@ def pretty():
 # TODO make_page/make_post/generate_page/generate_post could be generic and reused in two methods
 def make_page(page):
     # format page header for markdown
-    markdown_header = "layout: page" + "\n" + "title: "" + post + """ + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments:" + comments_enabled  + "\n" + "categories: []" + "\n"
+    markdown_header = "layout: page" + "\n" + "title: "" + post + """ + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments:" + config[comments_enabled]  + "\n" + "categories: []" + "\n"
     # format URL
     url = page.replace(" ", "-").lower()
     # write to file 
@@ -39,7 +39,7 @@ def make_page(page):
 # TODO format DATE
 def make_post(post):    
     # format post header for markdown
-    markdown_header = "layout: post" + "\n" + "title: "" + post + """ + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments:" + comments_enabled  + "\n" + "categories: []" + "\n"
+    markdown_header = "layout: post" + "\n" + "title: "" + post + """ + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments:" + config[comments_enabled] + "\n" + "categories: []" + "\n"
     # format URL
     url = post.replace(" ", "-").lower()
     # write to file 
@@ -51,7 +51,7 @@ def make_post(post):
 
 def generate_page(page):
     # get jinja template
-    template = env.get_template('page-template.html')
+    template = env.get_template('page.html')
     # get markdown file that needs converting
     content = open("source/pages/" + page)
     content = file.read()
@@ -74,7 +74,7 @@ def generate_page(page):
 
 def generate_post(post):
     # get jinja template
-    template = env.get_template('post-template.html')
+    template = env.get_template('page.html')
     # get markdown file that needs converting
     content = open("source/posts/" + post)
     content = file.read()

@@ -7,13 +7,37 @@
     {% endblock %}
 </head>
 <body>
-	<div id="content">
+    <div class="navigation">
+        <ul>
+        {% for item in navigation %}
+            <li><a href="{{ item.href }}">{{ item.title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+	<div class="content">
 		{% block content %}
 		{% endblock %}
 	</div>
-	<div id="footer">
+	<div class="sidebar">
+        <div class="about">
+            {{ about }}
+        </div>
+        <div class="recent">
+            <ul>
+            {% for item in recent %}
+                <li><a href="{{ item.href }}">{{ item.title }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="social">
+            <h3>GitHub placeholder</h3>
+            <h3>Twitter placeholder</h3>
+            <h3>Etsy placeholder</h3>
+        </div>
+	</div>
+	<div class="footer">
 		{% block footer %}
-		&copy; Copyright 2008 by <a href="#">you</a>.
+		&copy; Copyright 2008 by <a href="#">{{ name }}</a>.
 		{% endblock %}
 	</div>
 </body>
