@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
+{% set posts = get_latest_posts() %}
 {% block content %}
     {% for post in posts %}
         <div class="post">

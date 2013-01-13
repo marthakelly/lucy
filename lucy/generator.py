@@ -1,13 +1,14 @@
 from jinja2 import Environment, FileSystemLoader
 from config import *
 import markdown
+import uuid
 import os
 
 # TODO create truncated/aggregated view of all posts on index
-
+# TODO create check to see if existing pages have changed or not??
+posts = {}
 env = Environment(loader = FileSystemLoader("utils/templates"))
-# variables available to all templates
-# globals = Environment.globals()
+# env.filters['datetimeformat'] = datetimeformat
 
 def init():
     # TODO add prompt if they want to override this directory with a new clean project
@@ -41,7 +42,7 @@ def make_page(page):
 # TODO format DATE
 def make_post(post):    
     # format post header for markdown
-    markdown_header = "layout: post" + "\n" + "title: " + post + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: " + config["comments_enabled"] + "\n" + "categories: []" + "\n"
+    #markdown_header = "layout: post" + "\n" + "title: " + post + "\n" + "date: 2012-05-21 18:30" + "\n" + "comments: " + config["comments_enabled"] + "\n" + "categories: []" + "\n"
     # format URL
     url = post.replace(" ", "-").lower()
     # write to file 
@@ -56,10 +57,10 @@ def generate_page(page):
     template = env.get_template('page.html')
     # get markdown file that needs converting
     content = open("source/pages/" + page)
-    content = file.read()
+    text = file.read()
     # convert markdown file
     md = markdown.Markdown()
-    html = md.convert(content)
+    html = md.convert(text)
     # format page title
     title = page.replace(".html", "").replace("-", "").title()
     # render template context with markdown and other variables
@@ -70,27 +71,41 @@ def generate_page(page):
     file = open("static/" + url, "w")
     file.write(static_page)
     file.close()
-
+    
     # print confirmation
     print "Generated page: " + page 
+
+def generate_rss():
+    pass
+    # RSS env.get_template("feedtemplate.xml").render(items=get_list_of_items())
 
 def generate_post(post):
     # get jinja template
     template = env.get_template('page.html')
     # get markdown file that needs converting
     content = open("source/posts/" + post)
-    content = file.read()
+    text = content.read()
     # convert markdown file
-    md = markdown.Markdown()
-    html = md.convert(content)
+    md = markdown.Markdown(extensions=['meta'])
+    html = md.convert(text)
     # format page title
     title = post.replace(".html", "").replace("-", "").title()
     # render template context with markdown and other variables
-    static_page = template.render(title=config["title"] + " - " + title, content=content)
+    static_page = template.render(title=config["title"] + " - " + title, meta=md.Meta, content=content)
+    url = post.replace('.markdown', '.html')
     # write generated html to new file
-    file = open("static/" + filename, "w")
+    file = open("static/" + url, "w")
     file.write(static_page)
     file.close()
+    
+    # add post to global posts env variable
+    guid = uuid.uuid1()
+    post = {
+        'date'      : md.Meta.date,
+        'title'     : title,
+        'content'   : content,
+    }
+    posts[guid] = post
 
     # print confirmation
     print "Generated post: " + post
@@ -98,6 +113,7 @@ def generate_post(post):
 # TODO make both of these more generic
 def generate_index():
     template = env.get_template('index.html')
+    # env.get_template("feedtemplate.xml").render(items=get_list_of_items())
     static_page = template.render(title=config["title"], posts=posts)
     # write generated html to new file
     file = open("static/index.html", "w")
@@ -145,3 +161,6 @@ def generate_all():
     os.system("python ../setup.py minify_css --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/css/style.css --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/static/css/all-min.css --charset utf-8")
     # minify JS
     os.system("python ../setup.py minify_js --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/js/init.js --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/static/js/all-min.js --charset utf-8")
+    
+def datetimeformat(value, format='%H:%M / %d-%m-%Y'):
+    return value.strftime(format)

@@ -16,6 +16,7 @@
         {% include 'about-summary.html' %}
         <div class="recent">
             <ul>
+            {% set recent = get_recent_posts() %}    
             {% for item in recent %}
                 <li><a href="{{ item.href }}">{{ item.title }}</a></li>
             {% endfor %}
