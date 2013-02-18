@@ -83,13 +83,19 @@ def generate_index(posts):
     file.write(static_page)
     file.close()
     
-def generate_archives():
+    # print confirmation
+    print "Generated index.html"
+    
+def generate_archives(posts):
     template = env.get_template('archives.html')
     static_page = template.render(title=config["title"] + " - archives", posts=posts)
     # write generated html to new file
     file = open("lucy/static/archives.html", "w")
     file.write(static_page)
     file.close()
+    
+    # print confirmation
+    print "Generated archives.html"
     
 def generate_rss(posts):
     template = env.get_template('posts.rss')
@@ -98,13 +104,16 @@ def generate_rss(posts):
     file = open("lucy/static/posts.rss", "w")
     file.write(static_page)
     file.close()
+    
+    # print confirmation
+    print "Generated posts.rss"
 
 # generate all pages and posts into static assets
 # create index.html
 # create archives.html
 # minify css/js
 def generate_all():
-    # generate static pages
+    # generate custom pages
     for page in os.listdir("lucy/source/pages"):
         if page.endswith(".markdown"):
             make_static('page', page)
@@ -112,11 +121,10 @@ def generate_all():
     for post in os.listdir("lucy/source/posts"):
         if post.endswith(".markdown"):
             make_static('post', post)
-	# create index.html
+	# generate standalone pages
 	generate_index(posts)
 	generate_rss(posts)
-	# create archives.html
-	# generate_archives()
+	generate_archives(posts)
     # minify CSS
     # TODO fix the paths for minify
     os.system("python ../setup.py minify_css --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/css/style.css --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/static/css/all-min.css --charset utf-8")
@@ -124,6 +132,7 @@ def generate_all():
     os.system("python ../setup.py minify_js --sources /Users/marthakelly/Sites/hackerschool/lucy/lucy/source/js/init.js --output /Users/marthakelly/Sites/hackerschool/lucy/lucy/static/js/all-min.js --charset utf-8")
 
 '''
+# use watchdog?
 def generate_images():
     # check if existing images have changed
     # TODO does this work?
@@ -138,9 +147,4 @@ def generate_images():
                     except IOError:
 	                    # copy over new images
                         os.system("cp " + file + " static/img/" + file)
-
-#TODO no icky XML, use JSON
-def generate_rss():
-    pass
-    # RSS env.get_template("feedtemplate.xml").render(items=get_list_of_items())
 '''
