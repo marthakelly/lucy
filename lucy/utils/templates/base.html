@@ -1,37 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
-    	<link rel="stylesheet" href="css/all-min.css" />
-    	<title>{% block title %}{% endblock %}</title>
-    {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="css/all-min.css" />
+    <title>{% block title %}{% endblock %}</title>
+{% endblock %}
 </head>
 <body>
-    {% include 'navigation.html' %}
-	<div class="content">
-		{% block content %}
-		{% endblock %}
-	</div>
-	<div class="sidebar">
-        {% include 'about-summary.html' %}
-        <div class="recent">
-            <ul>
-            {% set recent = get_recent_posts() %}    
-            {% for item in recent %}
-                <li><a href="{{ item.href }}">{{ item.title }}</a></li>
-            {% endfor %}
-            </ul>
-        </div>
-        <div class="social">
-            <h3>GitHub placeholder</h3>
-            <h3>Twitter placeholder</h3>
-            <h3>Etsy placeholder</h3>
-        </div>
-	</div>
-	<div class="footer">
-		{% block footer %}
-		&copy; Copyright 2008 by <a href="#">{{ name }}</a>.
-		{% endblock %}
-	</div>
+    {% block content %}
+    {% endblock %}
 </body>
 </html>

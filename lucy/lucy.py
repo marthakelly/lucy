@@ -1,14 +1,14 @@
 import argparse
-from generator import init, make_post, make_page, generate_all, generate_post, generate_page
+from generator import *
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-i", "--init", help="Start a new Lucy project!")
-parser.add_argument("-po", "--post", help="Create a new blog post")
-parser.add_argument("-pa", "--page", help="Create a new page")
+parser.add_argument("-po", "--post", help="Create a new markdown blog post")
+parser.add_argument("-pa", "--page", help="Create a new markdown page")
 parser.add_argument("-g", "--generate", help="Generate all posts and template pages into static pages",
                     action="store_true")
-parser.add_argument("-gpo", "--generate_post", help="Turn an individual Markdown page into a HTML blog post page")
+parser.add_argument("-gpo", "--generate_post", help="Turn an individual Markdown page into a static HTML blog post")
 parser.add_argument("-gpa", "--generate_page", help="Turn an individual Jinja template into a static HTML page")
 # parser.add_argument("-pr", "--preview", help="Initialize Lucy with a pretty template.")
 # parser.add_argument("-d", "--deploy", help="Initialize Lucy with a pretty template.")
@@ -20,15 +20,15 @@ args = parser.parse_args()
 if args.init:
     pass
 elif args.post:
-    make_post(args.post)
+    make_new('post', args.post)
 elif args.page:
-    make_page(args.page)
+    make_new('page', args.page)
 elif args.generate:
     generate_all()
 elif args.generate_post:
-    generate_blog_post(args.generate_post)
+    make_static('post', args.generate_post)
 elif args.generate_page:
-    generate_file(args.generate_page)
+    make_static('page', args.generate_page)
 else:
     print ("nope")
     

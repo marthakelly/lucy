@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
-{% set posts = get_latest_posts() %}
 {% block content %}
     {% for post in posts %}
         <div class="post">
-            <p class="date">{{ post.date }}</p>
-            <h2><a href="{{ post.href }}">{{ post.title }}</a></h2>
+            <h1><a href="{{ post.meta.link[0] }}">{{ post.meta.title[0] }}</a></h1>
+            <p>{{ post.meta.date[0] }}</p>
             {{ post.content }}
         </div>
     {% endfor %}

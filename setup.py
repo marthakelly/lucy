@@ -1,10 +1,8 @@
-from setuptools import setup
-
-VERSION = __import__(PACKAGE).__version__
+from setuptools import setup, find_packages
 
 setup(
     name = "lucy",
-    version = VERSION,
+    version = "0.0.1",
     author = "Martha Kelly",
     author_email = "mk.girdler@gmail.com",
     description = ("Pretty, simple static site generator and blog for github pages."),
@@ -16,7 +14,6 @@ setup(
         'minify'
     ],
     packages = find_packages(exclude=["tests.*", "tests"]),
-    package_data = find_package_data("lucy", only_in_packages=False),
     # TODO
     # long_description=read('README.md'),
     classifiers = [
