@@ -1,1 +1,10 @@
+# A .gitignore file specifies intentionally untracked files that Git should ignore
+
+# this will ignore files with the .pyc file extension when you "git add"
 *.pyc
+# Notes about .pyc files
+# when you execute a Python file (python test.py) Python creates a .pyc file
+# .pyc files contain bytecode compiled from your .py file
+# bytecode is low level code that the Python interpreter can execute more quickly than your .py source code
+# The Python Virtual Machine then runs through the bytecode and interprets it to machine code (binary - 1s and 0s)
+# Then the PVM executes each binary instruction
