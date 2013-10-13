@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<rss version="2.0">
-{% for post in posts %}
-<channel>
-  <title>{{ post.meta.title[0] }}</title>
-  <link>{{ post.meta.link[0] }}</link>
-</channel>
-{% endfor %}
-</rss>

@@ -1,0 +1,7 @@
+* markdown support
+ - blockquotes styling
+ - code styling
+* simple templates (no need for jinja)
+* mobile first 
+* tests
+* simple server
