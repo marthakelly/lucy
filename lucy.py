@@ -33,10 +33,17 @@ def add_to_archive(link):
     for post in posts[FRONT_PAGE_LIMIT:]:
         pass
 
-def build_html(post):
+def build_post(post):
     """Build markdown post to HTML"""
     with open('%s/%s' % (SOURCE_PATH, post)) as f:
         return markdown.markdown(f.read())
+
+def build_from_template(post):
+    html = build_post(post)
+    context = {
+        'post': html
+    }
+    evaluate_template('base.html', context=context)
 
 def lucifer():
     """Templating engine for lucy"""
@@ -45,22 +52,32 @@ def lucifer():
     # turn this into a class
     posts = get_markdown_posts()
     for post in posts:
-        html = build_html(post)
-        evaluate_template('base.html', post=html, title='test')
+        build_from_template(post)
+        # build_index(post)
+        # build_archive(post)
 
 def evaluate_template(template_name, **kwargs):
     """Find template variables and replace them with content"""
-    template = open('%s/%s' % (TEMPLATE_PATH, template_name), 'r+')
-    output = ''
-    for line in template:
-        if any(key in line for key in kwargs.keys()):
-            #TODO make not whitespace sensitive
-            output += re.sub('%s( %s )%s' % (START_CHARS, key, END_CHARS), kwargs.get(key), line)
+    context = kwargs['context']
 
+    # do with here
+    template = open('%s/%s' % (TEMPLATE_PATH, template_name), 'r+')
+
+    output = ''
+
+    for line in template:
+        for key in context.keys():
+            if key in line:
+                # TODO make not whitespace sensitive
+                line = re.sub('%s( %s )%s' % (START_CHARS, key, END_CHARS), context[key], line)
+                print line
+            output += line
+    
     template.close()
 
-    with open('%s/%s.html' % (BUILD_PATH, 'hi'), 'w') as f:
-        f.write(output)
+    result = open('%s/%s' % (BUILD_PATH, template_name), 'w+')
+    result.write(output)
+    result.close()
 
 def create_new_post(name):
     """Create new timestamped markdown post"""
@@ -70,8 +87,6 @@ def create_new_post(name):
 def build():
     """Build source files"""
     lucifer()
-    #add_to_index()
-    #add_to_archive()
 
 def deploy():
     """Deploy application to github pages"""
